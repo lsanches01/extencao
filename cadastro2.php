@@ -1,9 +1,28 @@
 <?php
 
-if(isset(($_POST ['salvar'])))
+if (isset($_POST['submit'])) {
 
-{
-    print_r()
+    //print_r('Produtos: ' . $_POST['produtos']);
+    // print_r('<br>');
+    // print_r('Quantidade: ' . $_POST['quantidade']);
+
+    include_once('config.php');
+
+    $produtos =  $_POST['produtos'];
+    $quantidade = $_POST['quantidade'];
+
+    $produtos = mysqli_real_escape_string($conexao, $produtos);
+    $quantidade = mysqli_real_escape_string($conexao, $quantidade);
+
+    $result = mysqli_query($conexao, "INSERT INTO eletrica(produtos,quantidade) VALUES ('$produtos','$quantidade')");
+    /*
+    if ($result) {
+
+        echo "Produto cadastrado com sucesso";
+    } else {
+        echo "Erro ao cadastrar produto";
+    }
+    */
 }
 
 ?>
@@ -26,6 +45,8 @@ if(isset(($_POST ['salvar'])))
             align-items: center;
             flex-direction: column;
         }
+
+            {
             margin-bottom: 20px;
         }
 
@@ -70,7 +91,6 @@ if(isset(($_POST ['salvar'])))
             border-radius: 300px;
             display: block;
 
-
         }
 
         @media screen and (max-width: 768px) {
@@ -90,14 +110,14 @@ if(isset(($_POST ['salvar'])))
 <body>
     <img src="logo.png" alt="Logo" />
 
-    <form action="cadastro2.php" method="post">
-        
+    <form action="cadastro2.php" method="POST">
+
         <h2>Cadastro de Produtos</h2>
 
-        <input type="text" list="itens" id="inputItens" placeholder="Produtos">
+        <input type="text" list="itens" id="inputItens" name="produtos" placeholder="Produtos">
         <datalist id="itens">
             <option value="Fusivel 5 Amperes">
-            <option value="Fusivel 7,5 Amperes">
+            <option value="Fusivel de 7 Amperes">
             <option value="Fusivel 10 Amperes">
             <option value="Fusivel 15 Amperes">
             <option value="Fusivel 20 Amperes">
@@ -105,8 +125,8 @@ if(isset(($_POST ['salvar'])))
             <option value="Fusivel 30 Amperes">
             <option value="Condutor Eletrico PP">
         </datalist>
-        <input type="number" name="Quantidade" placeholder="Quantidade">
-        <input class="InputSubmit" type="submit" name="Salvar" value="Salvar">
+        <input type="number" name="quantidade" min="1" placeholder="Quantidade">
+        <input class="InputSubmit" type="submit" name="submit" value="Salvar">
     </form>
 </body>
 
